@@ -52,7 +52,7 @@ services:
 
 
 # 実行
-- 
+
 ```
 export AWS_PROFILE=localstack
 docker-compose up
