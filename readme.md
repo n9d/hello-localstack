@@ -93,7 +93,6 @@ awslocal lambda create-function --function-name test  --runtime python3.8 --hand
 ## 更新
 ```
 awslocal lambda update-function-code --function-name test --zip-file fileb://lambda.zip 
-
 ```
 
 ## 削除
