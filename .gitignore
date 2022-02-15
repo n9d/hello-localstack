@@ -1,3 +1,5 @@
 *.zip
 *.swp
 result.json
+.env
+tmp

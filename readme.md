@@ -21,34 +21,9 @@ region = us-east-1
 output = json
 ```
 
-## docker-compose
+## .env
 
-- 2021/12/14現在 version13で動かせない（13は先月リリース)
-- version12の最終バージョンを使う
-
-```
-version: '2.1'
-
-services:
-  localstack:
-    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
-    image: localstack/localstack:0.12.20
-    network_mode: bridge
-    ports:
-      - 127.0.0.1:4566:4566/tcp
-    environment:
-      - SERVICES=${SERVICES- }
-      - DEBUG=${DEBUG- }
-      - DATA_DIR=${DATA_DIR- }
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
-      - LAMBDA_DOCKER_NETWORK=host
-      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - HOST_TMP_FOLDER=${TMPDIR}
-    volumes:
-      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-```
+- `cp .env.example .env` PRO版を使うときには.envにkeyを書く
 
 
 # 実行
