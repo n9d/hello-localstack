@@ -143,6 +143,41 @@ awslocal cloudwatch list-metrics
 ```
 
 
+# athena
+
+- prestoが起動するまで結構時間がかかるので注意
+- 多分データベースの作り方を間違えているので結果が０件になる。（今後頑張る）
+
+## データの準備
+
+
+```sh
+awslocal s3 mb s3://sample
+awslocal s3 cp pokemon_go.json s3://sample/pokemon/go.json
+awslocal athena start-query-execution --result-configuration OutputLocation=s3://sample/out --query-string "create database if not exists pokemon;"
+awslocal athena start-query-execution --result-configuration OutputLocation=s3://sample/out --query-string "CREATE EXTERNAL TABLE IF NOT EXISTS \`pokemon\`.\`go\` ( \`name\` string, \`cp\` int, \`hp\` int, \`weight\` float, \`height\` float, \`favorite\` boolean, \`attributes\` array<string> ) ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe' WITH SERDEPROPERTIES ( 'serialization.format' = '1' ) LOCATION 's3://sample/pokemon/' TBLPROPERTIES ('has_encrypted_data'='false');"
+```
+
+
+## 検索
+
+```sh
+awslocal athena start-query-execution --result-configuration OutputLocation=s3://sample/out --query-string "select * from pokemon.go limit 10;"
+```
+
+## クエリの確認方法
+
+```sh
+awslocal athena get-query-execution --query-execution-id 38f8cc03
+```
+
+- この内容を見て
+
+```sh
+awslocal s3 ls s3://sample/out/Unsaved/2022/02/15/e38c719b/results.csv
+```
+
+
 # 参考URL
 
 - [localstackに向けてteraform](https://future-architect.github.io/articles/20201113/)
